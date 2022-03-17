@@ -20,60 +20,62 @@ public class JMB_TC_009 extends BaseClass {
 	public void LandingPageTest() throws IOException, InterruptedException
 	{
 		//Started the candidate landing page test
-		logger.info("LandingPageTest Started");
+		logger.info("CandidateLandingPageTest Started");
 
 		//Create the object for landing Page
 		CA_LandingPage lp= new  CA_LandingPage(driver);
 
-		//clicking on sign up
+		//clicking on SignUp
 		logger.info("click on SignUp");
 		lp.clickSignUp();
 
-		//Clicking on candidate sign up 
+		//Clicking on Candidate SignUp 
 		logger.info("click on candidate SignUp");
 		lp.clickCandidateSignUp();
 
 		//1: Validate whether SignUp form is displayed
-		String actualtext1=driver.findElement(By.xpath("/html/body/div[2]/div[2]/div[2]/h2")).getText();//SignUp Locator
+		String actualtext1=driver.findElement(By.xpath("//h2[contains(text(),'Sign Up')]")).getText();//SignUp form title Locator
 		String expectedText1 = "Sign Up";
-		if(actualtext1.equals(expectedText1)){
+
+		if(actualtext1.equals(expectedText1))
+		{
 			softassert.assertTrue(true);
-			logger.info("Test Passed!CandidateLandingPage Successful! SignUp form is displayed ");
+			logger.info("Test Passed!SigUp Page Successful! SignUp form is displayed");
 		}                                       
 		else
 
 		{
-		softassert.assertTrue(false);
-		logger.error("Test Failed! CandidateLandingPage UnSuccessful! SigUp form is not displayed");
-		captureScreen(driver,"SignUpTest");
+			softassert.assertTrue(false);
+			logger.error("Test Failed! SigUp Page UnSuccessful!SignUp form failed");
+			captureScreen(driver,"SignUpTest");
 		}
-		logger.info("LandingPageTest Completed");
+		logger.info("CandidateLandingPageTest Completed");
 	}	
 
 	@Test(priority=2)
 	public void SignUpTest() throws IOException, InterruptedException
 	{
-		
+
 		//Started the candidate SignUp test
 		logger.info("SignUpTest Started");
-		
+
 		//Create the object for SignUpPage
 		CA_SignUpPage su= new  CA_SignUpPage(driver);
 
-	
+
 		//Enter the details for the Signup with valid mobile number with space and hyphen
-		
+		//All the field values for below are declared in config file
 		logger.info("Enter the candidate details in the  SignUp form");
 		su.settxtFirstName(firstname);
 		su.settxtLastName(lastname);
-		su.settxtEmail("saritha48@gmail.com");// every test the email must be unique for the signup
+		su.settxtEmail(email);// every test the email must be unique for the Signup
 		su.clickCountryCode();
-		su.SelectCountry(country);
-		su.settxtPhone(mobile); // canada mobile number
+		su.SelectCountry(country); // Canada country selected
+		su.settxtPhone(mobile); // Canada mobile number
 		su.settxtPassword(password);
 		su.clickAgree();
 		su.clickConsent();
-		Thread.sleep(1000);
+		//Thread.sleep(2000);  //this should be used  in order to manually select the reCaptcha button
 		su.clickJoinNow();
 		logger.info("Entered all the candidate details in the  SignUp form");
 
@@ -84,14 +86,12 @@ public class JMB_TC_009 extends BaseClass {
 		{
 			softassert.assertTrue(true);
 			logger.info("Test Passed! SignUp Successful! Verify Your Email page displayed");
-			logger.info("SignUp form submitted with valid mobile number with space and hyphen");
 		}
 
 		else
 		{
 			softassert.assertTrue(false);
-			logger.error("Test Failed! SignUp UnSuccessful!Verify Your Email page displayed");
-			logger.info("SignUp form not submitted with valid mobile number with space and hyphen");
+			logger.error("Test Failed! SignUp UnSuccessful!Verify Your Email page failed");
 			captureScreen(driver,"SignUpTest");
 		}
 		softassert.assertAll();

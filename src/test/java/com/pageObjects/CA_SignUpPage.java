@@ -22,7 +22,6 @@ public class CA_SignUpPage {
 	}
 
 	//Capture FirstNamefield
-
 	@FindBy(id="firstname")
 	@CacheLookup
 	WebElement txtfirstname;
@@ -72,26 +71,13 @@ public class CA_SignUpPage {
 	@CacheLookup
 	WebElement CountryCode;
 
-	//capture list of all elements in the country code combobox
-	@FindBy(xpath ="//ul[@class='country-list']//li")
+	//capture list of all elements in the country code combobox country-name
+
+	//@FindBy(xpath ="//ul[@id='country-listbox']//span[@class='dial-code']")
+	//@FindBy(xpath ="//ul[@class='country-list']//li")
+	@FindBy(xpath ="//ul[@id='country-listbox']//span[@class='country-name']")
 	@CacheLookup
 	List<WebElement> countryList;
-
-
-	@FindBy(xpath ="//*[@id=\"candidateForm\"]/div[2]/div[3]/div/div/div/div/div[2]")
-	@CacheLookup
-	WebElement comboboxCountryCode;
-
-
-	@FindBy(xpath="//*[@id=\"country-listbox\"]")
-	@CacheLookup
-	WebElement comboboxCountryList;
-
-
-	@FindBy(xpath="//*[@id=\"iti-item-us\"]")
-	@CacheLookup
-	WebElement comboboxCountryList1;
-
 
 	// ==================Action methods===========================//
 
@@ -144,37 +130,18 @@ public class CA_SignUpPage {
 
 	// click on recaptcha radio button
 	public void clickCaptcha(){
-		WebDriverWait wait = new WebDriverWait(ldriver, 25);
+		WebDriverWait wait = new WebDriverWait(ldriver, 30);
 		wait.until(ExpectedConditions.visibilityOf(radiobtnCaptcha));
+		wait.until(ExpectedConditions.elementToBeClickable(radiobtnCaptcha));
 		radiobtnCaptcha.click();
 	}
 
 	// click on JoinNow(for signup)
 	public void clickJoinNow() {
-		WebDriverWait wait = new WebDriverWait(ldriver, 25);
+		WebDriverWait wait = new WebDriverWait(ldriver, 50);
 		wait.until(ExpectedConditions.visibilityOf(btnjoinnow));
+		wait.until(ExpectedConditions.elementToBeClickable(btnjoinnow));
 		btnjoinnow.click();
-	}
-
-	// click on 
-	public void clickCountryCodeCombobox() {
-		WebDriverWait wait = new WebDriverWait(ldriver, 25);
-		wait.until(ExpectedConditions.visibilityOf(comboboxCountryCode));
-		comboboxCountryCode.click();
-
-
-	}
-
-
-	public void clickCountrylist(String country) {
-		WebDriverWait wait = new WebDriverWait(ldriver, 25);
-		wait.until(ExpectedConditions.visibilityOf(comboboxCountryList));
-		comboboxCountryList.click();
-	}
-	public void clickCountrylist1(String country) {
-		WebDriverWait wait = new WebDriverWait(ldriver, 25);
-		wait.until(ExpectedConditions.visibilityOf(comboboxCountryList));
-		comboboxCountryList1.click();
 	}
 
 	// click on country code comboxbox
@@ -187,20 +154,13 @@ public class CA_SignUpPage {
 	//country code selection from the list of country codes
 	public void SelectCountry(String country)
 	{
-		for(int i =0; i<countryList.size();i++) {
-			
-		System.out.println(countryList.size());
-		System.out.println(countryList.get(i).getText());
-		
-			
-			
-			if(countryList.get(i).getText().equals(country))
+		for(int i =0; i<countryList.size();i++) 
+		{
+			if(countryList.get(i).getText().contains(country))
 			{
 				countryList.get(i).click();
 				break;
 			}
 		}
-
-	}}
-
-
+	}
+	}

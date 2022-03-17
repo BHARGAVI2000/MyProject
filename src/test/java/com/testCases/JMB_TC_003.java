@@ -14,7 +14,6 @@ import com.utilities.XLUtils;
 
 //Candidate_SignUpPage_Invalid FirstName
 
-
 public class JMB_TC_003 extends BaseClass 
 {
 
@@ -23,97 +22,117 @@ public class JMB_TC_003 extends BaseClass
 	@Test(priority=1)
 	public void LandingPageTest() throws IOException, InterruptedException
 	{
-		//Started the candidate landing page test
-		logger.info("LandingPageTest Started");
+		//Started the Candidate LandingPage test
+		logger.info("CandidateLandingPageTest Started");
 
-		//Create the object for landing Page
+		//Create the object for LandingPage
 		CA_LandingPage lp= new  CA_LandingPage(driver);
 
-		//click on sign up
+		//Click on Candidate LandingPage
 		logger.info("click on SignUp");
 		lp.clickSignUp();
 
-		//Click on candidate sign up 
+		//Click on Candidate SignUp  
 		logger.info("click on candidate SignUp");
 		lp.clickCandidateSignUp();
 
-
 		//1: Validate whether SignUp form is displayed
 
-		String actualtext1=driver.findElement(By.xpath("/html/body/div[2]/div[2]/div[2]/h2")).getText();//SignUp Locator
+		String actualtext1=driver.findElement(By.xpath("//h2[contains(text(),'Sign Up')]")).getText();////SignUp form title Locator
 		String expectedText1 = "Sign Up";
 		if(actualtext1.equals(expectedText1))
 		{
 			softassert.assertTrue(true);
-			logger.info("Test Passed! SigUp Page Successful! SignUp form is displayed ");
+			logger.info("Test Passed! SigUp Page Successful!SignUp form is displayed ");
 		}                                       
 		else
 		{
 			softassert.assertTrue(false);
-			logger.error("Test Failed! SigUp Page Successful! SigUp form is not displayed");
+			logger.error("Test Failed! SigUp Page UnSuccessful!SignUp form failed ");
 			captureScreen(driver,"SignUpTest");
 		}
-		logger.info("LandingPageTest Completed");
+		logger.info("CandidateLandingPageTest Completed");
 	}	
 
 
 	@Test(dataProvider="TestData",priority =2) 
-	public void SignUp(String firstname, String lastname, String email, String mobile, String password) throws InterruptedException, IOException{
+	public void SignUp(String firstname, String lastname, String email, String mobile, String password) throws InterruptedException, IOException
+	{
+
+		//Started the Candidate SignUp test
+		logger.info("SignUpTest Started");	
+
+		//Create the object for SignUp Page
+		CA_SignUpPage su= new  CA_SignUpPage(driver);
+
+		//Enter the details for the SignUp and validate firstname with multiple sets of data 
+		//All the field values for below are declared in config file
+		logger.info("Enter the candidate details in the  SignUp form");
+		su.settxtFirstName(firstname);
+		su.settxtLastName(lastname);
+		su.settxtEmail(email);
+		su.clickCountryCode();
+		su.SelectCountry(country);//Canada country selected
+		su.settxtPhone(mobile); // Canada mobile number
+		su.settxtPassword(password);
+		su.clickAgree();
+		su.clickConsent();
+		//Thread.sleep(2000);  //this should be used  in order to manually select the reCaptcha button
+		su.clickJoinNow();// Click on JoinNow 
+		logger.info("Entered all the candidate details in the  SignUp form");
+
+		//2:Validate SignUp firstname error messages displayed with multiple invalid sets of data
+
+		String actualText1 =driver.findElement(By.xpath("//*[@id=\"candidateForm\"]/div[2]/div[1]/div[1]/div/span")).getText();
+		String expectedText1 ="Please enter first name"; // firstname field error message locator with blank
+
+		String actualText2 =driver.findElement(By.xpath("//*[@id=\"candidateForm\"]/div[2]/div[1]/div[1]/div/span")).getText();
+		String expectedText2 ="Please enter valid first name";// firstname field error message locator with invalid data
+
+		if(actualText1.equals(expectedText1))
 		{
-
-			//Started the candidate SignUp test
-			logger.info("SignUpTest Started");	
-
-			//Create the object for SignUp Page
-			CA_SignUpPage su= new  CA_SignUpPage(driver);
-
-			//Enter the details for the SignUp and validate firstname with multiple sets of data
-			logger.info("Enter the candidate details in the  SignUp form");
-			su.settxtFirstName(firstname);
-			su.settxtLastName(lastname);
-			su.settxtEmail(email);
-			su.settxtPhone(mobile);
-			su.settxtPassword(password);
-			su.clickAgree();
-			su.clickConsent();
-			Thread.sleep(1000);
-			su.clickJoinNow();
-			logger.info("Entered all the candidate details in the  SignUp form");
-
-			//2:Validate whether SignUp  is successful 
-
-			String actualText1 =driver.findElement(By.xpath("//*[@id=\"candidateForm\"]/div[2]/div[1]/div[1]/div/span")).getText();
-			String expectedText1 ="Please enter first name"; // firstname field error message locator with blank
-
-			String actualText2 =driver.findElement(By.xpath("//*[@id=\"candidateForm\"]/div[2]/div[1]/div[1]/div/span")).getText();
-			String expectedText2 ="Please enter valid first name";// firstname field error message locator with invalid data
-
-			if(actualText1.equals(expectedText1))
-			{
-				softassert.assertTrue(true);
-				logger.info("Test Passed! !Error message Please enter valid first name displayed");
-				logger.info("SignUp form not submitted with invalid firstname ");
-			}
-
-			else if(actualText2.equals(expectedText2))
-			{
-				softassert.assertTrue(true);
-				logger.error("Test Passed! SignUp is not Successful!Error message Please enter valid first name displayed");
-				logger.info("SignUp form not submitted with invalid firstname ");
-				captureScreen(driver,"SignUpTest");
-			}
-
-			else
-			{
-				softassert.assertTrue(false);
-				logger.error("Test Failed! SignUp failed! Error message for firstname not displayed");
-				logger.info("SignUp form submitted with invalid firstname ");
-				captureScreen(driver,"SignUpTest");
-			}
-			softassert.assertAll();
-			logger.info("SignUpTest Completed");
+			softassert.assertTrue(true);
+			logger.info("Test Passed! !Error message Please enter first name  displayed");
+			driver.navigate().refresh();// to refresh the data in the text fields for the next iteration of data set
 		}
+
+		else if(actualText2.equals(expectedText2))
+		{
+			softassert.assertTrue(true);
+			logger.error("Test Passed !Error message Please enter valid first name displayed");
+			driver.navigate().refresh(); 
+		}
+
+		else	
+		{
+			softassert.assertTrue(false);
+			logger.error("Test Failed!Error message for firstname failed");
+			captureScreen(driver,"SignUpTest");
+			driver.navigate().refresh();
+		}
+
+
+		//3.Validating SignUp form not submitted with invalid firstname multiple sets of data
+
+		String actualtext3=driver.findElement(By.xpath("//h2[contains(text(),'Sign Up')]")).getText();//SignUp form title Locator
+		String expectedText3 = "Sign Up";
+
+		if(actualtext3.equals(expectedText3))
+		{
+			softassert.assertTrue(true);  //SignUp form not submitted with invalid firstname remained in the same signup for page
+			logger.info("Test Passed!SignUp form successful!");
+		}                           
+		else
+		{
+			softassert.assertTrue(false);
+			logger.error("Test Failed!SigUp form failed");
+			captureScreen(driver,"SignUpTest");
+		}
+
+		softassert.assertAll();
+		logger.info("SignUpTest Completed");
 	}
+
 
 	@DataProvider(name="TestData")
 	public String[][] testData() throws IOException {

@@ -22,23 +22,22 @@ public class JMB_TC_005 extends BaseClass {
 	public void LandingPageTest() throws IOException, InterruptedException
 	{
 		//Started the candidate landing page test
-		logger.info("LandingPageTest Started");
+		logger.info("CandidateLandingPageTest Started");
 
 		//Create the object for landing Page
 		CA_LandingPage lp= new  CA_LandingPage(driver);
 
-		//click on sign up
+		//click on Signup
 		logger.info("click on SignUp");
 		lp.clickSignUp();
 
-		//Click on candidate sign up 
+		//Click on candidate Signup 
 		logger.info("click on candidate SignUp");
 		lp.clickCandidateSignUp();
 
 
 		//1: Validate whether SignUp form is displayed
-
-		String actualtext1=driver.findElement(By.xpath("/html/body/div[2]/div[2]/div[2]/h2")).getText();//SignUp Locator
+		String actualtext1=driver.findElement(By.xpath("//h2[contains(text(),'Sign Up')]")).getText();//SignUp form title Locator
 		String expectedText1 = "Sign Up";
 
 		if(actualtext1.equals(expectedText1))
@@ -49,10 +48,10 @@ public class JMB_TC_005 extends BaseClass {
 		else
 		{
 			softassert.assertTrue(false);
-			logger.error("Test Failed! SigUp Page UnSuccessful! SigUp form is not displayed");
+			logger.error("Test Failed! SigUp Page UnSuccessful! SignUp form failed ");
 			captureScreen(driver,"SignUpTest");
 		}
-		logger.info("LandingPageTest Completed");
+		logger.info("CandidateLandingPageTest Completed");
 	}	
 
 
@@ -64,27 +63,26 @@ public class JMB_TC_005 extends BaseClass {
 		//Started the candidate SignUp test
 		logger.info("SignUpTest Started");
 
-
 		//Create the object for SignUpPage
 		CA_SignUpPage su= new  CA_SignUpPage(driver);
 
-
 		//Enter the details for the sign up and  for valid email with hyphen and underscore
+		//All the field values for below are declared in config file
 		logger.info("Enter the candidate details in the  SignUp form");
 		su.settxtFirstName(firstname);
 		su.settxtLastName(lastname);
-		su.settxtEmail("Sari_tha22-@gmail.com");
+		su.settxtEmail(email1); // email unique for every test and enter the email with underscore and hyphen
 		su.clickCountryCode();
-		su.SelectCountry(country);// canada
-		su.settxtPhone(mobile);
+		su.SelectCountry(country);  //Canada country selected
+		su.settxtPhone(mobile);     // Canada mobile number
 		su.settxtPassword(password);
 		su.clickAgree();
 		su.clickConsent();
-		Thread.sleep(2000);
-		su.clickJoinNow();
+		//Thread.sleep(2000);  //this should be used  in order to manually select the reCaptcha button
+		su.clickJoinNow(); // Click on JoinNow 
 		logger.info("Entered all the candidate details in the  SignUp form");
 
-		//2:Validate whether SignUp  is successful
+		//2:Validate whether SignUp  is successful with valid email with hyphen and underscore
 		
 		String actualText = driver.findElement(By.xpath("//h2[contains(text(),'Verify Your Email')]")).getText();
 		String expectedText = "Verify Your Email";//  verify your email page locator
@@ -99,8 +97,7 @@ public class JMB_TC_005 extends BaseClass {
 		else
 		{
 			softassert.assertTrue(false);
-			logger.error("Test Failed! SignUp UnSuccessful! Verify Your Email page not displayed");
-			logger.info("SignUp form submitted with email with hyphen and underscore");
+			logger.error("Test Failed! SignUp UnSuccessful!Verify Your Email page failed");
 			captureScreen(driver,"SignUpTest");
 		}
 		softassert.assertAll();

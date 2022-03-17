@@ -20,7 +20,7 @@ public class JMB_TC_007 extends BaseClass {
 	public void LandingPageTest() throws IOException, InterruptedException
 	{
 		//Started the candidate landing page test
-		logger.info("LandingPageTest Started");
+		logger.info("CandidateLandingPageTest Started");
 
 		//Create the object for landing Page
 		CA_LandingPage lp= new  CA_LandingPage(driver);
@@ -32,23 +32,23 @@ public class JMB_TC_007 extends BaseClass {
 		//Clicking on candidate sign up 
 		logger.info("click on candidate SignUp");
 		lp.clickCandidateSignUp();
+		
 
 		//1: Validate whether SignUp form is displayed
-
-		//SignUp form should be displayed
-		String actualtext1=driver.findElement(By.xpath("/html/body/div[2]/div[2]/div[2]/h2")).getText();//SignUp Locator
+		String actualtext1=driver.findElement(By.xpath("//h2[contains(text(),'Sign Up')]")).getText();//SignUp form title Locator
 		String expectedText1 = "Sign Up";
-		if(actualtext1.equals(expectedText1)){
+		if(actualtext1.equals(expectedText1))
+		{
 			softassert.assertTrue(true);
-			logger.info("Test Passed!Candidate LandingPage Successful with SignUp form is displayed ");
+			logger.info("Test Passed!SigUp Page Successful! SignUp form is displayed");
 		}                                       
 		else
 
 		{softassert.assertTrue(false);
-		logger.error("Test Failed!Candidate LandingPage UnSuccessful with SigUp form is not displayed");
+		logger.error("Test Failed!SigUp Page UnSuccessful! SignUp form failed");
 		captureScreen(driver,"SignUpTest");
 		}
-		logger.info("LandingPageTest Completed");
+		logger.info("CandidateLandingPageTest Completed");
 	}	
 
 
@@ -62,26 +62,27 @@ public class JMB_TC_007 extends BaseClass {
 		//Create the object for SignUp Page
 		 CA_SignUpPage su= new  CA_SignUpPage(driver);	
 		
-		//Enter the details for the sign up with valid data with US country code selected
+		//Enter the details for the SignUp with valid data with US country code selected
+		//All the field values for below are declared in config file
 		logger.info("Enter the candidate details in the  SignUp form");
 		su.settxtFirstName(firstname);
 		su.settxtLastName(lastname);
-		su.settxtEmail("saritha91@gmail.com"); // every test the email must be unique for the signup
+		su.settxtEmail(email); // every test the email must be unique for the signup
 		su.clickCountryCode();
-		su.SelectCountry(usCountry);  // US Country code selected
-		su.settxtPhone(usMobile);//  US mobile number
+		su.SelectCountry(uscountry);  // US Country code selected
+		su.settxtPhone(usmobile);//  US mobile number
 		su.settxtPassword(password);
 		su.clickAgree();
 		su.clickConsent();
-		Thread.sleep(3000);
+		//Thread.sleep(2000);  //this should be used  in order to manually select the reCaptcha button
 		su.clickJoinNow();
 		logger.info("Entered all the candidate details in the  SignUp form");
 		
 
-		//2:Validate whether SignUp  is successful when other country code(US) selected
+		//2:Validate whether SignUp is successful when other country code(US) selected
 		
 		String actualText = driver.findElement(By.xpath("//h2[contains(text(),'Verify Your Email')]")).getText();//Verify email locator
-		String expectedText = "Verify Your Email";
+		String expectedText = "Verify Your Email";  // verify your email message locator
 		if(actualText.equals(expectedText))
 		{
 			softassert.assertTrue(true);
@@ -92,8 +93,7 @@ public class JMB_TC_007 extends BaseClass {
 		else
 		{
 			softassert.assertTrue(false);
-			logger.error("Test Failed! SignUp UnSuccessful!Verify Your Email page not displayed");
-			logger.info("SignUp form  not submitted when the other countrycode is selected");
+			logger.error("Test Failed! SignUp UnSuccessful!Verify Your Email page failed");
 			captureScreen(driver,"SignUpTest");
 		}
 		softassert.assertAll();
@@ -102,4 +102,3 @@ public class JMB_TC_007 extends BaseClass {
 	}
 
 }
-

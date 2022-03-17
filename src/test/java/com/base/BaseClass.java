@@ -29,12 +29,14 @@ public class BaseClass
 	public String firstname = readconfig.getFirstName();
 	public String lastname = readconfig.getLastName();
 	public String email = readconfig.getEmail();
+	public String email1 = readconfig.getEmail1();
+	public String country = readconfig.getcountry();
+	
 	public String mobile =readconfig.getMobileNumber();
 	public String password = readconfig.getPassword();
 	public String browser=readconfig.getbrowser();
-	public String country = readconfig.getcountry();
-	public String usCountry = readconfig.getusCountry();
-	public String usMobile = readconfig.getusMobile();
+	public String uscountry = readconfig.getusCountry();
+	public String usmobile = readconfig.getusMobile();
 	
 	public static ChromeOptions handlingSSL = new ChromeOptions();
 	public static WebDriver driver;

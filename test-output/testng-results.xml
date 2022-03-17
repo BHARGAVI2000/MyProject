@@ -1,25 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results skipped="0" failed="0" ignored="0" total="1" passed="1">
+<testng-results skipped="0" failed="0" ignored="0" total="2" passed="2">
   <reporter-output>
   </reporter-output>
-  <suite name="Default suite" duration-ms="10944" started-at="2022-03-11T21:11:55Z" finished-at="2022-03-11T21:12:06Z">
+  <suite name="Default suite" duration-ms="19561" started-at="2022-03-17T10:44:05Z" finished-at="2022-03-17T10:44:24Z">
     <groups>
     </groups>
-    <test name="Default test" duration-ms="10944" started-at="2022-03-11T21:11:55Z" finished-at="2022-03-11T21:12:06Z">
-      <class name="com.testCases.JMB_TC_001">
-        <test-method status="PASS" signature="setup()[pri:0, instance:com.testCases.JMB_TC_001@1b68ddbd]" name="setup" is-config="true" duration-ms="7725" started-at="2022-03-11T21:11:55Z" finished-at="2022-03-11T21:12:02Z">
+    <test name="Default test" duration-ms="19561" started-at="2022-03-17T10:44:05Z" finished-at="2022-03-17T10:44:24Z">
+      <class name="com.testCases.JMB_TC_005">
+        <test-method status="PASS" signature="setup()[pri:0, instance:com.testCases.JMB_TC_005@1b68ddbd]" name="setup" is-config="true" duration-ms="10240" started-at="2022-03-17T10:44:05Z" finished-at="2022-03-17T10:44:15Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setup -->
-        <test-method status="PASS" signature="LandingPageTest()[pri:1, instance:com.testCases.JMB_TC_001@1b68ddbd]" name="LandingPageTest" duration-ms="2482" started-at="2022-03-11T21:12:02Z" finished-at="2022-03-11T21:12:05Z">
+        <test-method status="PASS" signature="LandingPageTest()[pri:1, instance:com.testCases.JMB_TC_005@1b68ddbd]" name="LandingPageTest" duration-ms="2743" started-at="2022-03-17T10:44:15Z" finished-at="2022-03-17T10:44:18Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- LandingPageTest -->
-        <test-method status="PASS" signature="tearDown()[pri:0, instance:com.testCases.JMB_TC_001@1b68ddbd]" name="tearDown" is-config="true" duration-ms="707" started-at="2022-03-11T21:12:05Z" finished-at="2022-03-11T21:12:06Z">
+        <test-method status="PASS" signature="SignUp()[pri:2, instance:com.testCases.JMB_TC_005@1b68ddbd]" name="SignUp" duration-ms="5788" started-at="2022-03-17T10:44:18Z" finished-at="2022-03-17T10:44:24Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- SignUp -->
+        <test-method status="PASS" signature="tearDown()[pri:0, instance:com.testCases.JMB_TC_005@1b68ddbd]" name="tearDown" is-config="true" duration-ms="763" started-at="2022-03-17T10:44:24Z" finished-at="2022-03-17T10:44:24Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- tearDown -->
-      </class> <!-- com.testCases.JMB_TC_001 -->
+      </class> <!-- com.testCases.JMB_TC_005 -->
     </test> <!-- Default test -->
   </suite> <!-- Default suite -->
 </testng-results>

@@ -8,12 +8,12 @@ public class ReadConfig
 {
 	// Properties Class
 	Properties pro; 
-	
+
 	// Constructor
 	public ReadConfig()
 	{
 		File src = new File(System.getProperty("user.dir") + "\\Configuration\\config.properties");// Creating File object
-			
+
 		try 
 		{
 			// Open FileInputStream and Read data 
@@ -27,7 +27,7 @@ public class ReadConfig
 			System.out.println("Exception is " + e.getMessage());
 		}
 	}
-	
+
 	// Methods to read data from config.properties 
 	public String getApplicationURL()                            // ok - add new url in config.properties
 	{
@@ -39,65 +39,72 @@ public class ReadConfig
 		String username1=pro.getProperty("username1");
 		return username1;
 	}
-	
-	
-	
+
+
+
 	public String getPassword() 
 	{
-	String password=pro.getProperty("password");
-	return password;
+		String password=pro.getProperty("password");
+		return password;
 	}
-	
+
 	public String getFirstName() 
 	{
-	String firstname=pro.getProperty("firstname");
-	return firstname;
+		String firstname=pro.getProperty("firstname");
+		return firstname;
 	}
-	
+
 	public String getLastName() 
 	{
-	String lastname=pro.getProperty("lastname");
-	return lastname;
+		String lastname=pro.getProperty("lastname");
+		return lastname;
 	}
-	
+
 	public String getEmail() 
 	{
-	String email=pro.getProperty("email");
-	return email;
+		String email=pro.getProperty("email");
+		return email;
 	}
-	
-	
+
+
+	public String getEmail1() 
+	{
+		String email1=pro.getProperty("email1");
+		return email1;
+	}
+
+
 	public String getMobileNumber() 
 	{
-	String mobile=pro.getProperty("mobile");
-	return mobile;
+		String mobile=pro.getProperty("mobile");
+		return mobile;
 	}
 	public String getChromePath() 
 	{
-	String chromepath=pro.getProperty("chromepath");
-	return chromepath;
+		String chromepath=pro.getProperty("chromepath");
+		return chromepath;
 	}
 
 	public String getbrowser() 
 	{
-	String browser=pro.getProperty("browser");
-	return browser;
+		String browser=pro.getProperty("browser");
+		return browser;
 	}
 	public String getcountry() 
 	{
-	String country=pro.getProperty("country");
-	return country;
+		String country=pro.getProperty("country");
+		return country;
 	}
-	
+
 	public String getusCountry() 
 	{
-	String usCountry=pro.getProperty("usCountry");
-	return usCountry;
+		String uscountry=pro.getProperty("uscountry");
+		return uscountry;
 	}
 	public String getusMobile() 
 	{
-	String usMobile=pro.getProperty("usMobile");
-	return usMobile;
+		String usmobile=pro.getProperty("usmobile");
+		return usmobile;
 	}
-		
+
 }

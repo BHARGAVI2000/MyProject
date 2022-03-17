@@ -22,86 +22,103 @@ public class JMB_TC_011 extends BaseClass {
 	public void LandingPageTest() throws IOException, InterruptedException
 	{
 		//Started the candidate landing page test
-		logger.info("LandingPageTest Started");
+		logger.info("CandidateLandingPageTest Started");
 
 		//Create the object for landing Page
 		CA_LandingPage lp= new  CA_LandingPage(driver);
 
-		//clicking on sign up
+		//clicking on SignUp
 		logger.info("click on SignUp");
 		lp.clickSignUp();
 
-		//Clicking on candidate sign up 
+		//Clicking on Candidate SignUp 
 		logger.info("click on candidate SignUp");
 		lp.clickCandidateSignUp();
 
 		//1: Validate whether SignUp form is displayed
-
-		String actualtext1=driver.findElement(By.xpath("/html/body/div[2]/div[2]/div[2]/h2")).getText();//SignUp Locator
+		String actualtext1= driver.findElement(By.xpath("//h2[contains(text(),'Sign Up')]")).getText();//SignUp form title Locator
 		String expectedText1 = "Sign Up";
 		if(actualtext1.equals(expectedText1))
 		{
 			softassert.assertTrue(true);
-			logger.info("Test Passed! CandidateLandingPage Successful! SignUp form is displayed ");
+			logger.info("Test Passed!SigUp Page Successful! SignUp form is displayed");
 		}                                       
 		else
 		{ 
 			softassert.assertTrue(false);
-			logger.error("Test Failed! CandidateLandingPage UnSuccessful! SigUp form is not displayed");
+			logger.error("Test Failed! SigUp Page UnSuccessful!SignUp form failed");
 			captureScreen(driver,"SignUpTest");
 		}
-		logger.info("LandingPageTest Completed");
+		logger.info("CandidateLandingPageTest Completed");
 	}	
 
 
-
 	@Test(dataProvider="TestData",priority =2) 
-	public void SignUp(String firstname, String lastname, String email, String mobile, String password) throws InterruptedException, IOException{
+	public void SignUp(String firstname, String lastname, String email, String mobile, String password) throws InterruptedException, IOException
+	{
+		//Started the candidate SignUp test
+		logger.info("SignUpTest Started");
+
+		//Create the object for SignUp Page
+		CA_SignUpPage su= new  CA_SignUpPage(driver);
+
+		//Enter the details in SignUp and password with multiple sets of data
+		//All the field values for below are declared in config file
+		logger.info("Enter the candidate details in the  SignUp form");
+		su.settxtFirstName(firstname);
+		su.settxtLastName(lastname);
+		su.settxtEmail(email);
+		su.clickCountryCode(); // Canada country code selected
+		su.SelectCountry(country);// Canada mobile number
+		su.settxtPhone(mobile);
+		su.settxtPassword(password);
+		su.clickAgree();
+		//Thread.sleep(2000);  //this should be used  in order to manually select the reCaptcha button
+		su.clickConsent();
+		su.clickJoinNow(); // Click on JoinNow 
+		logger.info("Entered all the candidate details in the  SignUp form");
+
+
+		//2:Validate SignUp password error messages displayed with multiple invalid sets of data
+
+		String actualText2 =driver.findElement(By.xpath("//span[contains(text(),'Please enter strong password')]")).getText();
+		String expectedText2 ="Please enter strong password";//password error message locator
+
+		if(actualText2.equals(expectedText2))
 		{
-			//Started the candidate SignUp test
-			logger.info("SignUpTest Started");
-
-			//Create the object for SignUp Page
-			CA_SignUpPage su= new  CA_SignUpPage(driver);
-
-			// Enter the details in sign up and password with multiple sets of data
-			logger.info("Enter the candidate details in the  SignUp form");
-			su.settxtFirstName(firstname);
-			su.settxtLastName(lastname);
-			su.settxtEmail(email);
-			su.clickCountryCode(); // Canada country code selected
-			su.SelectCountry(country);// canada mobile number
-			su.settxtPhone(mobile);
-			su.settxtPassword(password);
-			su.clickAgree();
-			Thread.sleep(2000);
-			su.clickConsent();
-			su.clickJoinNow();
-			logger.info("Entered all the candidate details in the  SignUp form");
-
-
-			//2:Validate whether SignUp account is not create with multiple sets of data
-
-			String actualText1 =driver.findElement(By.xpath("//span[contains(text(),'Please enter strong password')]")).getText();
-			String expectedText1 ="Please enter strong password";//Mobile error message locator
-
-			if(actualText1.equals(expectedText1))
-			{
-				softassert.assertTrue(true);
-				logger.info("Test Passed!Error message Please enter strong password displayed");
-				logger.info("SignUp form not submitted when invalid password is entered");
-			}
-			else
-			{
-				softassert.assertTrue(false);
-				logger.error("Test Failed! Error message for mobile number not displayed");
-				logger.info("SignUp form submitted when invalid password is entered");
-				captureScreen(driver,"SignUpTest");
-			}
-			softassert.assertAll();
-			logger.info("SignUpTest Completed");
+			softassert.assertTrue(true);
+			logger.info("Test Passed!Error message Please enter strong password displayed");
+			driver.navigate().refresh(); // to refresh the data in the text fields for the next iteration of data set
 		}
+		else 
+		{
+			softassert.assertTrue(false);
+			logger.error("Test Failed! Error message for password failed");
+			captureScreen(driver,"SignUpTest");
+			driver.navigate().refresh();
+		}
+
+		//3.Validating SignUp form not submitted with invalid password multiple sets of data
+
+		String actualtext3=driver.findElement(By.xpath("//h2[contains(text(),'Sign Up')]")).getText();//SignUp form title Locator
+		String expectedText3= "Sign Up";
+		if(actualtext3.equals(expectedText3))
+		{
+			softassert.assertTrue(true);  //SignUp form not submitted with invalid password remained in the same signup for page
+			logger.info("Test Passed!SignUp form successful!");
+
+		}                                       
+		else
+		{
+			softassert.assertTrue(false);
+			logger.error("Test Failed! SigUp form failed");
+			captureScreen(driver,"SignUpTest");
+		}
+
+		softassert.assertAll();
+		logger.info("SignUpTest Completed");
 	}
+
 
 	@DataProvider(name="TestData")
 	public String[][] testData() throws IOException {
